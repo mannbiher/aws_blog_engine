@@ -159,7 +159,7 @@ resource "aws_codebuild_project" "app_deploy" {
 
     environment_variable {
       "name"  = "S3_DEPLOY_BUCKET"
-      "value" = "${var.app_directory}"
+      "value" = "${aws_s3_bucket.origin_bucket.id}"
     }
   }
 

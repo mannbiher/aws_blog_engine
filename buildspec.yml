@@ -18,4 +18,4 @@ artifacts:
   base-directory: $APP_DIR
 cache:
   paths:
-    - '/root/.yarn-cache/**/*'
+    - '/usr/local/share/.cache/yarn/v1/**/*'
