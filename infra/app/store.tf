@@ -1,11 +1,9 @@
-data "aws_canonical_user_id" "current" {}
-
 data "template_file" "bucket_policy" {
   template = "${file("${path.module}/origin_s3_policy.json")}"
 
   vars = {
-    account_canonical_user = "${data.aws_canonical_user_id.current.id}"
-    s3_bucket_arn          = "${aws_s3_bucket.origin_bucket.arn}"
+    s3_canonical_user_id = "${aws_cloudfront_origin_access_identity.origin_access_identity.s3_canonical_user_id}"
+    s3_bucket_arn        = "${aws_s3_bucket.origin_bucket.arn}"
   }
 }
 

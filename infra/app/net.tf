@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       }
     }
 
-    viewer_protocol_policy = "https-only"
+    viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
@@ -97,7 +97,7 @@ resource "aws_route53_record" "zone_apex_ipv6" {
 # Create CNAME record for www.{your_domain}
 resource "aws_route53_record" "www" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
-  name    = "$www.{var.domain_name}"
+  name    = "www.${var.domain_name}"
   type    = "A"
 
   alias {
@@ -111,7 +111,7 @@ resource "aws_route53_record" "www" {
 
 resource "aws_route53_record" "www_ipv6" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
-  name    = "$www.{var.domain_name}"
+  name    = "www.${var.domain_name}"
   type    = "AAAA"
 
   alias {
