@@ -8,6 +8,7 @@ phases:
       - cd $CODEBUILD_SRC_DIR/$APP_DIR;yarn install
   build:
     commands:
+      - ls -la
       - $CODEBUILD_SRC_DIR/$APP_DIR/node_modules/webpack --mode=production
 artifacts:
   files:
