@@ -6,4 +6,4 @@ phases:
       - pip install awscli --upgrade
   build:
     commands:
-      - aws s3 cp $CODEBUILD_SRC_DIR s3://$S3_DEPLOY_BUCKET/ --recursive --sse
+      - cd $CODEBUILD_SRC_DIR;aws s3 sync . s3://$S3_DEPLOY_BUCKET/ --exclude "deployspec.yml"

@@ -9,6 +9,8 @@ phases:
   build:
     commands:
       - $CODEBUILD_SRC_DIR/$APP_DIR/node_modules/.bin/webpack --mode=production
+      # Copy deployspec as build artifact for 
+      - cp $CODEBUILD_SRC_DIR/deployspec.yml $CODEBUILD_SRC_DIR/$APP_DIR/
 artifacts:
   files:
     - '**/*'
