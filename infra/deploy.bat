@@ -18,7 +18,7 @@ set codepipeline_version=1
 echo Application deployed
 cd ..\cf
 echo In cf folder deploying cloudformation
-aws cloudformation create-stack --stack-name github-webhook-5 ^
+aws cloudformation create-stack --stack-name github-webhook-7 ^
     --template-body file://webhook.yaml ^
     --parameters ParameterKey=SecretKey,ParameterValue=%SECRET_TOKEN% ^
         ParameterKey=PipelineARN,ParameterValue=%codepipeline_name% ^
