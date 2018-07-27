@@ -6,4 +6,8 @@ phases:
       - pip install awscli --upgrade
   build:
     commands:
-      - cd $CODEBUILD_SRC_DIR;aws s3 sync . s3://$S3_DEPLOY_BUCKET/ --exclude "deployspec.yml"
+      - env
+      - cd $CODEBUILD_SRC_DIR;aws s3 sync . s3://${S3_DEPLOY_BUCKET}/ --exclude "deployspec.yml"
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'

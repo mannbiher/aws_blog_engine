@@ -115,7 +115,7 @@ resource "aws_codebuild_project" "app_build" {
 
   cache {
     type     = "S3"
-    location = "${var.codebuild_cache_s3}"
+    location = "${var.codebuild_build_cache_s3}"
   }
 
   environment {
@@ -144,6 +144,11 @@ resource "aws_codebuild_project" "app_deploy" {
 
   artifacts {
     type = "CODEPIPELINE"
+  }
+
+  cache {
+    type     = "S3"
+    location = "${var.codebuild_deploy_cache_s3}"
   }
 
   environment {

@@ -63,7 +63,11 @@ variable "aws_region" {
   description = "AWS region to deploy the app"
 }
 
-variable "codebuild_cache_s3" {
+variable "codebuild_build_cache_s3" {
+  description = "codebuild cache path in bucket-name/prefix format"
+}
+
+variable "codebuild_deploy_cache_s3" {
   description = "codebuild cache path in bucket-name/prefix format"
 }
 
