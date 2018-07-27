@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Creates Github webhook for Codepipeline
+
+Parameters:
+  SecretKey:
+    Description: Github secret key
+    Type: String
+  PipelineARN:
+    Description: Codepipeline ARN
+    Type: String
+  PipelineVersion:
+    Description: Codepipeline version
+    Type: Number
+
+Resources:
+  Webhook:
+    Type: "AWS::CodePipeline::Webhook"
+    Properties:
+      AuthenticationConfiguration:
+        SecretToken: !Ref SecretKey
+      Filters: 
+        - 
+          JsonPath: "$.ref"
+          MatchEquals: "refs/heads/{Branch}"
+      Authentication: "GITHUB_HMAC"
+      TargetPipeline: !Ref PipelineARN
+      TargetAction: "Source"
+      Name: "github-webhook"
+      TargetPipelineVersion: !Ref PipelineVersion
+      RegisterWithThirdParty: True

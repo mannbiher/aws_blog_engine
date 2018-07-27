@@ -1,0 +1,9 @@
+version: 0.2
+            
+phases:
+  install:
+    commands:
+      - pip install awscli --upgrade
+  build:
+    commands:
+      - aws s3 cp $CODEBUILD_SRC_DIR s3://$S3_DEPLOY_BUCKET/ --recursive --sse

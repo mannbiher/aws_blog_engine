@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl -o- -L https://yarnpkg.com/install.sh | bash
+      - cd $CODEBUILD_SRC_DIR/$APP_DIR;yarn install
+  build:
+    commands:
+      - $CODEBUILD_SRC_DIR/$APP_DIR/node_modules/webpack --mode=production
+artifacts:
+  files:
+    - '**/*'
+  base-directory: $APP_DIR
+cache:
+  paths:
+    - '/root/.yarn-cache/**/*'

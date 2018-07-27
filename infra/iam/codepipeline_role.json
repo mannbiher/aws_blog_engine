@@ -1,0 +1,39 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:GetBucketVersioning"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::codepipeline*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "lambda:invokefunction",
+                "lambda:listfunctions"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        },
+        {
+            "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild"
+            ],
+            "Resource": "*",
+            "Effect": "Allow"
+        }
+    ]
+}
