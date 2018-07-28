@@ -1,4 +1,4 @@
-# Blog Engine using AWS
+# Single Tenant(currently) Blog Engine using AWS
 
 ## Reinventing the wheel to learn
 This blog engine use
@@ -7,3 +7,4 @@ This blog engine use
 3. Route 53 for CloudFront custom domain
 4. AWS CodePipeline trigged via GitHub Webhook
 5. AWS CodeBuild to build, test and deploy the application
+6. Terraform scripts to create the infrastructure are inside infra folder.

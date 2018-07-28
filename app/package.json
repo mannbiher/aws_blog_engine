@@ -13,8 +13,10 @@
   "author": "Maneesh Singh",
   "license": "MIT",
   "dependencies": {
+    "amazon-cognito-identity-js": "^2.0.19",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

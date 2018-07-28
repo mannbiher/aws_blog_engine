@@ -1,17 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Navigation from './js/routes.jsx';
 
-class HelloMessage extends React.Component {
-    render() {
-      return (
-        <div>
-          Hello {this.props.name}
-        </div>
-      );
-    }
-  }
-
-  ReactDOM.render(
-    <HelloMessage name="World!" />,
-    document.getElementById('dynamic')
-  );
+ReactDOM.render(
+  <Navigation />,
+  document.getElementById('dynamic')
+);
