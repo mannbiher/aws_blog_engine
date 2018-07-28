@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {
     CognitoUserPool,
-    CognitoUserAttribute,
-    CognitoUser
+    CognitoUserAttribute
 } from 'amazon-cognito-identity-js';
-import constants from './constants';
+import constants from './constants.js';
 
 
 export default class NameForm extends React.Component {
@@ -31,29 +29,20 @@ export default class NameForm extends React.Component {
     }
 
     handleSubmit(event) {
-        var poolData = {
-            UserPoolId: constants.USER_POOL_ID, // Your user pool id here
-            ClientId: constants.CLIENT_ID // Your client id here
-        };
-        //console.log(constants.US)
-        var userPool = new CognitoUserPool(poolData);
+
+        var userPool = new CognitoUserPool({
+            UserPoolId: constants.USER_POOL_ID,
+            ClientId: constants.CLIENT_ID
+        });
 
         var attributeList = [];
 
-        var dataEmail = {
+        var attributeEmail = new CognitoUserAttribute({
             Name: 'email',
-            Value: 'email@mydomain.com'
-        };
-
-        var dataPhoneNumber = {
-            Name: 'phone_number',
-            Value: '+15555555555'
-        };
-        var attributeEmail = new CognitoUserAttribute(dataEmail);
-        var attributePhoneNumber = new CognitoUserAttribute(dataPhoneNumber);
+            Value: this.state.username
+        });
 
         attributeList.push(attributeEmail);
-        attributeList.push(attributePhoneNumber);
 
         userPool.signUp(this.state.username,
             this.state.password,
@@ -83,7 +72,7 @@ export default class NameForm extends React.Component {
                     Password:
             <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                 </label>
-                <input type="submit" value="Submit"/>
+                <input type="submit" value="Submit" />
             </form>
         );
     }
