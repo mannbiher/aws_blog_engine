@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    CognitoUserPool,
-    CognitoUserAttribute
-} from 'amazon-cognito-identity-js';
-import constants from './constants.js';
-
+import { signUp, logIn } from './cognito.js';
 
 export default class NameForm extends React.Component {
     constructor(props) {
@@ -29,34 +24,13 @@ export default class NameForm extends React.Component {
     }
 
     handleSubmit(event) {
+        if (this.props.auth == "signup") {
+            signUp(this.state.username, this.state.password);
+        } else {
+            logIn(this.state.username, this.state.password);
+        }
+        
 
-        var userPool = new CognitoUserPool({
-            UserPoolId: constants.USER_POOL_ID,
-            ClientId: constants.CLIENT_ID
-        });
-
-        var attributeList = [];
-
-        var attributeEmail = new CognitoUserAttribute({
-            Name: 'email',
-            Value: this.state.username
-        });
-
-        attributeList.push(attributeEmail);
-
-        userPool.signUp(this.state.username,
-            this.state.password,
-            attributeList,
-            null,
-            function (err, result) {
-                if (err) {
-                    alert(err.message || JSON.stringify(err));
-                    return;
-                }
-                //console.log(result);
-                cognitoUser = result.user;
-                console.log('user name is ' + cognitoUser.getUsername());
-            });
         //  alert('A name was submitted: ' + this.state.username);
         event.preventDefault();
     }

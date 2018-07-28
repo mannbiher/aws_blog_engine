@@ -19,8 +19,8 @@ const Navigation = () => (
             </ul>
             <hr />
             <Route exact path="/" component={HelloMessage} />
-            <Route path="/signup" component={NameForm} />
-            <Route path="/login" component={NameForm} />
+            <Route path="/signup" render={() => <NameForm auth="signup" />} />
+            <Route path="/login" render={() => <NameForm auth="login" />} />
         </div>
     </Router>
 );

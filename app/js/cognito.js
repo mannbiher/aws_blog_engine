@@ -1,37 +1,64 @@
 import {
     CognitoUserPool,
     CognitoUserAttribute,
-    CognitoUser
-} from 'amazon-cognito-identity-js';
+    AuthenticationDetails,
+    CognitoUser } from 'amazon-cognito-identity-js';
+import constants from './constants.js';
 
-var poolData = {
-    UserPoolId : 'us-east-1_eVFL4uOfZ', // Your user pool id here
-    ClientId : '5d0fcn6baaosvprss22ok641q9' // Your client id here
-};
-var userPool = new CognitoUserPool(poolData);
-
-var attributeList = [];
-
-var dataEmail = {
-    Name : 'email',
-    Value : 'email@mydomain.com'
-};
-
-var dataPhoneNumber = {
-    Name : 'phone_number',
-    Value : '+15555555555'
-};
-var attributeEmail = new CognitoUserAttribute(dataEmail);
-var attributePhoneNumber = new CognitoUserAttribute(dataPhoneNumber);
-
-attributeList.push(attributeEmail);
-attributeList.push(attributePhoneNumber);
-
-userPool.signUp('username', 'password', attributeList, null, function(err, result){
-    if (err) {
-        alert(err.message || JSON.stringify(err));
-        return;
-    }
-    cognitoUser = result.user;
-    console.log('user name is ' + cognitoUser.getUsername());
+var userPool = new CognitoUserPool({
+    UserPoolId: constants.USER_POOL_ID,
+    ClientId: constants.CLIENT_ID
 });
+
+
+export function signUp(username, password) {
+    var attributeList = [];
+
+    var attributeEmail = new CognitoUserAttribute({
+        Name: 'email',
+        Value: username
+    });
+
+    attributeList.push(attributeEmail);
+
+    userPool.signUp(username,
+        password,
+        attributeList,
+        null,
+        function (err, result) {
+            if (err) {
+                alert(err.message || JSON.stringify(err));
+                return;
+            }
+            //console.log(result);
+            cognitoUser = result.user;
+            console.log('user name is ' + cognitoUser.getUsername());
+        });
+}
+
+
+export function logIn(username, password) {
+    var authenticationDetails = new AuthenticationDetails({
+        Username : username,
+        Password : password
+    });
+
+    var cognitoUser = new CognitoUser({
+        Username : username,
+        Pool : userPool
+    });
+
+    cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function (result) {
+            var accessToken = result.getAccessToken().getJwtToken();
+            console.log(accessToken)
+            /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
+            var idToken = result.idToken.jwtToken;
+        },
+
+        onFailure: function(err) {
+            alert(err);
+        },
+
+    });
+}
