@@ -14,6 +14,14 @@ resource "aws_s3_bucket" "origin_bucket" {
   # Below are required as terraform tries to change this property to default
   # if not specified
   acl = ""
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST"]
+    allowed_origins = ["http://localhost:8080"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
 }
 
 # Setup lifecycle policy for logs 30 days

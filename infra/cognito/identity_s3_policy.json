@@ -1,0 +1,21 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": ["s3:ListBucket"],
+        "Effect": "Allow",
+        "Resource": ["arn:aws:s3:::${s3_origin_bucket}"],
+        "Condition": {
+          "StringLike": {
+            "s3:prefix": ["$${cognito-identity.amazonaws.com:sub}/*"]}}
+      },
+      {
+        "Action": [
+          "s3:GetObject",
+          "s3:PutObject"
+        ],
+        "Effect": "Allow",
+        "Resource": ["arn:aws:s3:::${s3_origin_bucket}/$${cognito-identity.amazonaws.com:sub}/*"]
+      }
+    ]
+  }
