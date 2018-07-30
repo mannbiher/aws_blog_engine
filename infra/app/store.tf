@@ -17,9 +17,10 @@ resource "aws_s3_bucket" "origin_bucket" {
 
   cors_rule {
     allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST"]
+    allowed_methods = ["PUT"]
     allowed_origins = ["http://localhost:8080"]
-    expose_headers  = ["ETag"]
+
+    # expose_headers  = ["ETag"]
     max_age_seconds = 3000
   }
 }
