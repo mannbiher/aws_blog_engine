@@ -1,3 +1,12 @@
+data "terraform_remote_state" "api" {
+  backend = "s3"
+  config ={
+    bucket  = "m-terraform-state"
+    key     = "aws_blog_engine/api/terraform.tfstate"
+    region  = "us-east-1"
+  }
+}
+
 data "template_file" "identity_trust" {
   template = "${file("${path.module}/identity_trust.json")}"
 
@@ -6,11 +15,13 @@ data "template_file" "identity_trust" {
   }
 }
 
-data "template_file" "s3_policy" {
-  template = "${file("${path.module}/identity_s3_policy.json")}"
+
+
+data "template_file" "api_policy" {
+  template = "${file("${path.module}/identity_api_policy.json")}"
 
   vars = {
-    s3_origin_bucket = "${var.s3_origin_bucket}"
+    execution_arn = "${data.terraform_remote_state.api.execution_arn}"
   }
 }
 
@@ -25,10 +36,10 @@ resource "aws_iam_role_policy" "authenticated_default" {
   policy = "${file("${path.module}/identity_cognito_policy.json")}"
 }
 
-resource "aws_iam_role_policy" "authenticated_s3" {
-  name   = "s3_access"
+resource "aws_iam_role_policy" "authenticated_api" {
+  name   = "api_access"
   role   = "${aws_iam_role.authenticated.id}"
-  policy = "${data.template_file.s3_policy.rendered}"
+  policy = "${data.template_file.api_policy.rendered}"
 }
 
 resource "aws_cognito_identity_pool_roles_attachment" "main" {

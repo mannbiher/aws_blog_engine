@@ -12,6 +12,15 @@ data "terraform_remote_state" "iam" {
   }
 }
 
+data "terraform_remote_state" "api" {
+  backend = "s3"
+  config ={
+    bucket  = "m-terraform-state"
+    key     = "aws_blog_engine/api/terraform.tfstate"
+    region  = "us-east-1"
+  }
+}
+
 # CodeBuild for Build and Test and Deploy
 # CodePipeline to deploy
 # Github trigger will be done in CloudFormation

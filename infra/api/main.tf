@@ -12,11 +12,14 @@ data "terraform_remote_state" "app" {
   }
 }
 
+
 data "template_file" "swagger_def" {
   template = "${file("${path.module}/swagger.json")}"
 
   vars {
     app_name = "${var.app_name}"
+    region = "${var.aws_region}"
+    lambda_arn = "${data.terraform_remote_state.app.lambda_arn}"
   }
 }
 
@@ -76,6 +79,9 @@ resource "aws_api_gateway_deployment" "api" {
   # See aws_api_gateway_rest_api_docs for how to create this
   rest_api_id = "${aws_api_gateway_rest_api.api.id}"
   stage_name  = "live"
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_api_gateway_base_path_mapping" "api" {

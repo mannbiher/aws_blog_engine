@@ -1,0 +1,436 @@
+swagger: '2.0'
+info:
+  description: '${app_name} api'
+  title: '${app_name}-api'
+  version: 1.0.0
+schemes:
+  - https
+paths:
+  /blogs:
+    get:
+      tags:
+        - blogs
+      summary: List all blogs
+      produces:
+        - application/json
+      parameters:
+        - name: author_id
+          in: query
+          description: Id of author of blog
+          required: true
+          type: string
+        - name: page
+          in: query
+          description: Page number of results to return.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Blogs'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestParameters:
+          integration.request.querystring.page: method.request.querystring.page
+          integration.request.querystring.type: method.request.querystring.author_id
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+    post:
+      tags:
+        - blogs
+      operationId: CreateBlog
+      summary: Create a blog
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: NewBlog
+          required: true
+          schema:
+            $ref: '#/definitions/NewBlog'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/NewBlogResponse'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      security:
+        - AppUserPool: []
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets'
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: http
+    options:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+            Access-Control-Allow-Methods:
+              type: string
+              description: Method or methods allowed when accessing the resource
+            Access-Control-Allow-Headers:
+              type: string
+              description: Used in response to a preflight request to indicate which HTTP headers can be used when making the request.
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''POST,GET,OPTIONS'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+  /blogs/trending:
+    get:
+      tags:
+        - blogs
+      summary: List up to 20 trending blogs
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Blogs'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+  /blogs/latest:
+    get:
+      tags:
+        - blogs
+      summary: List up to 20 latest blogs
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Blogs'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+  '/blogs/{blogId}':
+    get:
+      tags:
+        - blogs
+      summary: Info for a specific blog
+      operationId: GetBlog
+      produces:
+        - application/json
+      parameters:
+        - name: blogId
+          in: path
+          description: The id of the blog to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Blog'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestParameters:
+          integration.request.path.petId: method.request.path.blogId
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets/{blogId}'
+        passthroughBehavior: when_no_match
+        httpMethod: GET
+        type: http
+    put:
+      tags:
+        - blogs
+      summary: Update a specific blog
+      operationId: UpdateBlog
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: blogId
+          in: path
+          description: The id of the blog to update
+          required: true
+          type: string
+        - in: body
+          name: NewBlog
+          required: true
+          schema:
+            $ref: '#/definitions/NewBlog'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/NewBlogResponse'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+      security:
+        - AppUserPool: []
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        requestParameters:
+          integration.request.path.petId: method.request.path.blogId
+        uri: 'http://petstore-demo-endpoint.execute-api.com/petstore/pets/{blogId}'
+        passthroughBehavior: when_no_match
+        httpMethod: PUT
+        type: http
+    options:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: blogId
+          in: path
+          description: The id of the blog to retrieve
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Empty'
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+              description: URI that may access the resource
+            Access-Control-Allow-Methods:
+              type: string
+              description: Method or methods allowed when accessing the resource
+            Access-Control-Allow-Headers:
+              type: string
+              description: Used in response to a preflight request to indicate which HTTP headers can be used when making the request.
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: '''GET,OPTIONS'''
+              method.response.header.Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,Authorization,X-Api-Key'''
+              method.response.header.Access-Control-Allow-Origin: '''*'''
+        passthroughBehavior: when_no_match
+        requestTemplates:
+          application/json: '{"statusCode": 200}'
+        type: mock
+definitions:
+  Blogs:
+    type: array
+    items:
+      $ref: '#/definitions/Blog'
+  Empty:
+    type: object
+  NewBlogResponse:
+    type: object
+    properties:
+      pet:
+        $ref: '#/definitions/Blog'
+      message:
+        type: string
+  Blog:
+    type: object
+    properties:
+      id:
+        type: string
+      suggested_img_url:
+        type: string
+      content_url:
+        type: string
+      author_name:
+        type: string
+      modified_by:
+        type: string
+      user_tags:
+        type: string
+      suggested_tags:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
+      time_to_read:
+        type: integer
+  NewBlog:
+    type: object
+    properties:
+      content:
+        type: string
+      user_id:
+        type: string
+      user_tags:
+        type: number
+securityDefinitions:
+  AppUserPool:
+    type: apiKey
+    name: Authorization
+    in: header
+    x-amazon-apigateway-authtype: cognito_user_pools
+    x-amazon-apigateway-authorizer:
+      type: cognito_user_pools
+      providerARNs:
+        - '${cognito_user_pool_arn}'
+x-amazon-apigateway-documentation:
+  version: v2.1
+  createdDate: '2018-08-01T07:03:59Z'
+  documentationParts:
+    - location:
+        type: API
+      properties:
+        info:
+          description: Blog engine API
+    - location:
+        type: METHOD
+        path: '/blogs/{blogId}'
+        method: GET
+      properties:
+        tags:
+          - blogs
+        summary: Info for a specific blog
+    - location:
+        type: METHOD
+        path: /blogs
+        method: GET
+      properties:
+        tags:
+          - blogs
+        summary: List all blogs
+    - location:
+        type: METHOD
+        path: /blogs
+        method: POST
+      properties:
+        tags:
+          - blogs
+        summary: Create a blog
+    - location:
+        type: PATH_PARAMETER
+        path: '/blog/{blogId}'
+        method: '*'
+        name: blogId
+      properties:
+        description: The id of the blog to retrieve
+    - location:
+        type: QUERY_PARAMETER
+        path: /blogs
+        method: GET
+        name: page
+      properties:
+        description: Page number of results to return.
+    - location:
+        type: QUERY_PARAMETER
+        path: /blogs
+        method: GET
+        name: author_id
+      properties:
+        description: To retrieve blogs by author
+    - location:
+        type: REQUEST_BODY
+        path: /blogs
+        method: POST
+      properties:
+        description: Blog object that needs to be added
+    - location:
+        type: RESPONSE
+        method: '*'
+        statusCode: '200'
+      properties:
+        description: Successful operation
+    - location:
+        type: RESPONSE_HEADER
+        method: OPTIONS
+        statusCode: '200'
+        name: Access-Control-Allow-Headers
+      properties:
+        description: Used in response to a preflight request to indicate which HTTP headers can be used when making the request.
+    - location:
+        type: RESPONSE_HEADER
+        method: OPTIONS
+        statusCode: '200'
+        name: Access-Control-Allow-Methods
+      properties:
+        description: Method or methods allowed when accessing the resource
+    - location:
+        type: RESPONSE_HEADER
+        method: '*'
+        statusCode: '200'
+        name: Access-Control-Allow-Origin
+      properties:
+        description: URI that may access the resource
+    - location:
+        type: RESPONSE_HEADER
+        method: GET
+        statusCode: '200'
+        name: Content-Type
+      properties:
+        description: Media type of request

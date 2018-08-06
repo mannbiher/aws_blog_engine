@@ -9,3 +9,11 @@ output "codepipeline_name" {
 output "api_cert_arn" {
   value = "${aws_acm_certificate.api_cert.arn}"
 }
+
+output "dynamo_arn" {
+  value = "${aws_dynamodb_table.app-table.arn}"
+}
+
+output "lambda_arn" {
+  value = "${aws_lambda_function.test_lambda.arn}"
+}

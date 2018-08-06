@@ -103,6 +103,11 @@
             }
           }
         },
+        "security": [
+          {
+            "sigv4": []
+          }
+        ],
         "x-amazon-apigateway-integration": {
           "responses": {
             "default": {
@@ -112,10 +117,10 @@
               }
             }
           },
-          "uri": "http://petstore-demo-endpoint.execute-api.com/petstore/pets",
+          "uri": "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations",
           "passthroughBehavior": "when_no_match",
           "httpMethod": "POST",
-          "type": "http"
+          "type": "aws_proxy"
         }
       },
       "options": {
@@ -338,6 +343,11 @@
             }
           }
         },
+        "security": [
+          {
+            "sigv4": []
+          }
+        ],
         "x-amazon-apigateway-integration": {
           "responses": {
             "default": {
@@ -487,9 +497,17 @@
       }
     }
   },
+  "securityDefinitions": {
+    "sigv4": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "x-amazon-apigateway-authtype" : "awsSigv4"
+    }
+  },
   "x-amazon-apigateway-documentation": {
     "version": "v2.1",
-    "createdDate": "2016-11-17T07:03:59Z",
+    "createdDate": "2018-08-01T07:03:59Z",
     "documentationParts": [
       {
         "location": {
@@ -497,20 +515,8 @@
         },
         "properties": {
           "info": {
-            "description": "Your first API with Amazon API Gateway. This is a sample API that integrates via HTTP with our demo Pet Store endpoints"
+            "description": "Blog engine API"
           }
-        }
-      },
-      {
-        "location": {
-          "type": "METHOD",
-          "method": "GET"
-        },
-        "properties": {
-          "tags": [
-            "blogs"
-          ],
-          "description": "PetStore HTML web page containing API usage information"
         }
       },
       {

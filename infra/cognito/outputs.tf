@@ -13,3 +13,7 @@ output "cognito_app_client_id" {
 output "cognito_identity_id" {
   value = "${aws_cognito_identity_pool.main.id}"
 }
+
+output "cognito_user_pool_arn" {
+  value = "${aws_cognito_user_pool.pool.arn}"
+}
