@@ -1,5 +1,5 @@
 import React from 'react';
-import { API } from 'aws-amplify';
+import API from '@aws-amplify/api';
 
 export default class MarkDownEditor extends React.Component {
     constructor(props) {

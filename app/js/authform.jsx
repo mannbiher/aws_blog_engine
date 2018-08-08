@@ -1,6 +1,6 @@
 import React from 'react';
 // import { signUp, logIn } from './cognito.js';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 
 export default class NameForm extends React.Component {
     constructor(props) {
