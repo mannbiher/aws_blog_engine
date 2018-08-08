@@ -1,5 +1,6 @@
 import React from 'react';
-import { signUp, logIn } from './cognito.js';
+// import { signUp, logIn } from './cognito.js';
+import { Auth } from 'aws-amplify';
 
 export default class NameForm extends React.Component {
     constructor(props) {
@@ -24,12 +25,27 @@ export default class NameForm extends React.Component {
     }
 
     handleSubmit(event) {
+        let username = this.state.username;
+        let password = this.state.password;
         if (this.props.auth == "signup") {
-            signUp(this.state.username, this.state.password);
+
+            Auth.signUp({
+                username,
+                password,
+                attributes: {
+                    email: username
+                }
+            }).then(data => console.log(data))
+                .catch(err => console.log(err));
+
+            //signUp(this.state.username, this.state.password);
         } else {
-            logIn(this.state.username, this.state.password);
+            Auth.signIn(username, password)
+                .then(user => console.log(user))
+                .catch(err => console.log(err));
+            // logIn(this.state.username, this.state.password);
         }
-        
+
 
         //  alert('A name was submitted: ' + this.state.username);
         event.preventDefault();
