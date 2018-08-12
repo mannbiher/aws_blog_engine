@@ -1,7 +1,10 @@
 const path = require('path')
 
 module.exports = {
-    entry: './main.js',
+    entry: [
+        // '@babel/polyfill',
+        './main.js',
+    ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
@@ -14,8 +17,15 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env','@babel/preset-react'],
-                        plugins: ['@babel/plugin-proposal-object-rest-spread']
+                        presets: [
+                            '@babel/preset-env',
+                            '@babel/preset-react',
+                        ],
+                        plugins: [
+                            '@babel/plugin-proposal-object-rest-spread',
+                            // '@babel/plugin-transform-async-to-generator',
+                            // '@babel/plugin-transform-regenerator',
+                        ]
                     }
                 }
             }

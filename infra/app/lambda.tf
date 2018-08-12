@@ -7,11 +7,10 @@ resource "aws_lambda_function" "test_lambda" {
   handler          = "index.handler"
   source_code_hash = "${base64sha256(file("dummy_lambda.zip"))}"
   runtime          = "nodejs8.10"
+  timeout          = 30
 
   tags = "${var.tags}"
-
 }
-
 
 # Refactor your authentication
 resource "aws_lambda_permission" "lambda_permission" {

@@ -24,9 +24,9 @@ const Navigation = () => (
             </ul>
             <hr />
             <Route exact path="/" component={HelloMessage} />
-            <Route path="/signup" render={() => <NameForm auth="signup" />} />
-            <Route path="/login" render={() => <NameForm auth="login" />} />
-            <PrivateRoute path="/edit" component={MarkDownEditor}/>
+            <Route path="/signup" render={props => <NameForm auth="signup" {...props} />} />
+            <Route path="/login" render={props => <NameForm auth="login" {...props} />} />
+            <PrivateRoute path="/edit" component={MarkDownEditor} />
         </div>
     </Router>
 );

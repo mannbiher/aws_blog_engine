@@ -1,15 +1,8 @@
 import Auth from '@aws-amplify/auth';
 
-
+// TODO find better method to detect logged in user
 export const isAuthenticated = () => {
     Auth.currentAuthenticatedUser()
-    .then((data) => {
-        console.log(data)
-        return true;
-    })
-    .catch((err) => {
-        console.log(err);
-        return false
-    });
-}
-
+      .then(() => { return true; })
+      .catch(() => { return false; });
+};
