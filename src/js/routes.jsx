@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import NameForm from './authform.jsx';
 import HelloMessage from './home.jsx';
 import MarkDownEditor from './edit.jsx';
+import { PrivateRoute } from './private-route.jsx';
 
 const Navigation = () => (
     <Router>
@@ -25,7 +26,7 @@ const Navigation = () => (
             <Route exact path="/" component={HelloMessage} />
             <Route path="/signup" render={() => <NameForm auth="signup" />} />
             <Route path="/login" render={() => <NameForm auth="login" />} />
-            <Route path="/edit" component={MarkDownEditor}/>
+            <PrivateRoute path="/edit" component={MarkDownEditor}/>
         </div>
     </Router>
 );
