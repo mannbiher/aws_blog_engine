@@ -13,8 +13,8 @@
   "author": "Maneesh Singh",
   "license": "MIT",
   "dependencies": {
-    "amazon-cognito-identity-js": "^3.2.1",
-    "aws-amplify": "^2.2.1",
+    "amazon-cognito-identity-js": "^4.3.3",
+    "aws-amplify": "^3.0.23",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-router-dom": "^5.1.2"
